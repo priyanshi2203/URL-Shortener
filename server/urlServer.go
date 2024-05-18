@@ -44,6 +44,7 @@ func (s *UrlServer) Start() error {
 
 
 	mux.HandleFunc("/shortly", shortener.HandleShorten)
+	mux.HandleFunc("/shortgo/", shortener.HandleRedirect)
 
 	err := server.ListenAndServe()
 	if(err!=nil){

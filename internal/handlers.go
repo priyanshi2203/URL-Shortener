@@ -35,4 +35,21 @@ func (us *URLShortener) HandleShorten(w http.ResponseWriter, r *http.Request) {
     fmt.Fprintf(w, responseHTML)
 }
 
+func (us *URLShortener) HandleRedirect(w http.ResponseWriter, r *http.Request) {
+    shortKey := r.URL.Path[len("/shortgo/"):]
+    if shortKey == "" {
+        http.Error(w, "Shortened key is missing", http.StatusBadRequest)
+        return
+    }
+
+    // Retrieve the original URL from the `urls` map using the shortened key
+    originalURL, found := us.Urls[shortKey]
+    if !found {
+        http.Error(w, "Shortened key not found", http.StatusNotFound)
+        return
+    }
+
+    // Redirect the user to the original URL
+    http.Redirect(w, r, originalURL, http.StatusMovedPermanently)
+}
 

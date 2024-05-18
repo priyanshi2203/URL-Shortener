@@ -3,6 +3,7 @@ package internal
 import (
     "fmt"
     "net/http"
+	"sort"
 )
 
 func (us *URLShortener) HandleShorten(w http.ResponseWriter, r *http.Request) {
@@ -18,11 +19,15 @@ func (us *URLShortener) HandleShorten(w http.ResponseWriter, r *http.Request) {
         return
     }
 
+    //fetch domain from the url and store the increment the count of each domain
+    domain := getDomain(originalURL)
+	us.DomainFreq[domain]+= 1
+
     // Generate a unique short key for the original URL
     shortKey := us.GenerateUniqueHash(originalURL)
     us.Urls[shortKey] = originalURL
 
-    //Final url
+    //final url
     shortenedURL := fmt.Sprintf("http://localhost:8080/shortly/%s", shortKey)
 
     // Render the HTML response with the shortened URL
@@ -53,3 +58,33 @@ func (us *URLShortener) HandleRedirect(w http.ResponseWriter, r *http.Request) {
     http.Redirect(w, r, originalURL, http.StatusMovedPermanently)
 }
 
+func (us *URLShortener) HandleTop3Domains(w http.ResponseWriter, r *http.Request) {
+
+	// Convert the map to a slice of key-value pairs
+	var pairs []Pair
+	var topDomains []string
+
+	for domain, freq := range us.DomainFreq {
+		pairs = append(pairs, Pair{domain, freq})
+	}
+
+	// Sort the slice by values in descending order
+	sort.Slice(pairs, func(i, j int) bool {
+		return pairs[i].Value > pairs[j].Value
+	})
+
+	 // Get the top 3 domains
+	 for i := 0; i < 3 && i < len(pairs); i++ {
+        topDomains = append(topDomains, pairs[i].Key)
+    }
+
+     // Render the HTML response with the top 3 domains
+	 w.Header().Set("Content-Type", "text/html")
+	 responseHTML := fmt.Sprintf(`
+		 <h2>Top 3 domains:</h2>
+		 <p>1st: %s</p>
+		 <p>2nd:%s</a></p>
+		 <p>3rd:%s</a></p>
+	 `, topDomains[0], topDomains[1], topDomains[2])
+	 fmt.Fprintf(w, responseHTML)
+}

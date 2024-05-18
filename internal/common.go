@@ -11,6 +11,7 @@ var (
 type URLShortener struct {
     Urls map[string]string
     UrlHashes map[string]string
+    DomainFreq map[string]int
 }
 
 // Pair represents a key-value pair

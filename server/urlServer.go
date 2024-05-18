@@ -25,10 +25,10 @@ func New(port string) *UrlServer {
 // Start starts the server and listens for incoming requests.
 func (s *UrlServer) Start() error {
 	ctx := context.Background();
-
 	shortener := &internal.URLShortener{
 		Urls: make(map[string]string),
 		UrlHashes: make(map[string]string),
+    	DomainFreq: make(map[string]int),
 	}
 
 	mux := http.NewServeMux()
@@ -45,6 +45,7 @@ func (s *UrlServer) Start() error {
 
 	mux.HandleFunc("/shortly", shortener.HandleShorten)
 	mux.HandleFunc("/shortgo/", shortener.HandleRedirect)
+	mux.HandleFunc("/metrics", shortener.HandleTop3Domains)
 
 	err := server.ListenAndServe()
 	if(err!=nil){

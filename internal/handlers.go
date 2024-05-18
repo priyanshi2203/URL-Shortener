@@ -79,9 +79,9 @@ func (us *URLShortener) HandleTop3Domains(w http.ResponseWriter, r *http.Request
     }
 
 	// Initialize placeholders for the top domains
-	first := "Nil"
-	second := "Nil"
-	third := "Nil"
+	first := "No first domain"
+	second := "No 2nd domain"
+	third := "No 3rd domain"
 
 	if len(topDomains) > 0 {
     	first = topDomains[0]
@@ -97,9 +97,9 @@ func (us *URLShortener) HandleTop3Domains(w http.ResponseWriter, r *http.Request
 	 w.Header().Set("Content-Type", "text/html")
 	 responseHTML := fmt.Sprintf(`
 		 <h2>Top 3 domains:</h2>
-		 <p>1st: %s</p>
-		 <p>2nd:%s</a></p>
-		 <p>3rd:%s</a></p>
-	 `, first, second, third)
+		 <p>1st- %s : %d times </p>
+		 <p>2nd- %s : %d times </a></p>
+		 <p>3rd- %s : %d times </a></p>
+	 `, first,us.DomainFreq[first], second,us.DomainFreq[second], third,us.DomainFreq[third])
 	 fmt.Fprintf(w, responseHTML)
 }

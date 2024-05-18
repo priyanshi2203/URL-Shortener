@@ -76,6 +76,7 @@ The application is organized into the following packages:
 
 - `cmd/main.go`: Entry point of the application.
 - `internal/`: Contains the HTTP handlers for the APIs, common.go file containg the types and helpers.go .
+- `server/`: Contains the URL Shortener server .
 
 ## Docker
 

@@ -84,6 +84,7 @@ Run unit tests
 ```sh
 cd internal
 go test -run .
+```
 
 ## Docker
 

@@ -78,13 +78,14 @@ The application is organized into the following packages:
 - `internal/`: Contains the HTTP handlers for the APIs, common.go file containg the types and helpers.go .
 - `server/`: Contains the URL Shortener server .
 
-## Unit test
 
-Run unit tests
+## Unit Test
+
+Run the UT -
+
 ```sh
-cd internal
-go test -run .
-```
+cd internal 
+go test -run .    
 
 ## Docker
 

@@ -28,7 +28,7 @@ func (us *URLShortener) HandleShorten(w http.ResponseWriter, r *http.Request) {
     us.Urls[shortKey] = originalURL
 
     //final url
-    shortenedURL := fmt.Sprintf("http://localhost:8080/shortly/%s", shortKey)
+    shortenedURL := fmt.Sprintf("http://localhost:8080/shortgo/%s", shortKey)
 
     // Render the HTML response with the shortened URL
     w.Header().Set("Content-Type", "text/html")

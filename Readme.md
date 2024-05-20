@@ -25,6 +25,14 @@ This repository contains a URL Shortener service built with Golang. The service 
     ```
 
 2. Build and run the application using Docker:
+
+    ForGOOS=linux GOARCH=amd64
+    ```sh
+    docker pull priyanshi2203/url:v2
+    docker run -p 8080:8080 priyanshi2203/url:v2
+    ```
+
+    ForGOOS=linux GOARCH=arm64
     ```sh
     docker pull priyanshi2203/url
     docker run -p 8080:8080 priyanshi2203/url
@@ -95,5 +103,13 @@ Docker Hub Repository: [priyanshi2203/url](https://hub.docker.com/repository/doc
 
 To pull the latest image:
 
+For GOOS=linux GOARCH=amd64
 ```sh
-docker pull priyanshi2203/url
+docker pull priyanshi2203/url:v2"
+```
+
+ForGOOS=linux GOARCH=arm64
+
+```sh
+docker pull priyanshi2203/url:v2"
+```
